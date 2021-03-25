@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+   
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ 
+     <!-- Site Metas -->
+    <title>HostCloud - Responsive HTML5 Template</title>  
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Colors CSS -->
+    <link rel="stylesheet" href="/static/css/colors.css">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="/static/css/versions.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <!-- Modernizer for Portfolio -->
+    <script src="static/js/modernizer.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="host_version"> 
+
+	<!-- Modal -->
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header tit-up">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Admin Login</h4>
+			</div>
+			<div class="modal-body customer-box row">
+				<div class="col-md-12">
+		
+					<div class="tab-content">
+						<div class="tab-pane active" id="Login">
+							<form role="form" class="form-horizontal" action="/Login" method="POST">
+							<div class="form-group">
+                                <h3 style="font-style: oblique;">Mail ID</h3>
+								<div class="col-sm-12">
+									<input class="form-control" id="email1" name="email" placeholder="Name" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+                                <h3 style="font-style: oblique;">Password</h3>
+								<div class="col-sm-12">
+									<input class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" type="password">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-10">
+									<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+										Submit
+									</button>
+									<a class="for-pwd" href="/static/javascript:;">Forgot your password?</a>
+								</div>
+							</div>
+							</form>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div>
+
+	<!-- LOADER -->
+	<div id="preloader">
+		<div class="loading">
+			<div class="finger finger-1">
+				<div class="finger-item">
+				<span></span><i></i>
+				</div>
+			</div>
+  			<div class="finger finger-2">
+				<div class="finger-item">
+				<span></span><i></i>
+				</div>
+			</div>
+  			<div class="finger finger-3">
+				<div class="finger-item">
+				<span></span><i></i>
+				</div>
+			</div>
+  			<div class="finger finger-4">
+				<div class="finger-item">
+				<span></span><i></i>
+				</div>
+			</div>
+  			<div class="last-finger">
+				<div class="last-finger-item"><i></i></div>
+			</div>
+		</div>
+	</div>
+	<!-- END LOADER -->
+
+    <form role="form" class="form-horizontal" action="/Menu" method="POST" id="event-notify-form"> 
+        <header class="header header_style_01">
+            <nav class="megamenu navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/static/index.html"><img src="/static/images/logos/VCCLogo.png" alt="image" style="margin-top: -14px;"></a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <input type="hidden" name="myId" />
+                        <ul class="nav navbar-nav" id="notification-event">
+                            <li data-id="index"><a >Home</a></li>
+                            <li data-id="About"> <a >About</a></li>
+                            <li data-id="Courses"><a >Courses</a></li>
+                            <li data-id="Enroll" class="active"><a >Enroll</a></li>                       
+                            <li data-id="Contact"><a >Contact</a></li>
+                            <li data-id="Testimonials"><a>Testimonials</a></li>
+                            <li data-id="Reports"><a>Reports</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Admin Login</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+    </form>
+	
+	{% block content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning" style="background-color: #c2f8d7;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    <div id="support" class="section wb">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3>Need To Enroll? Sure we are Online!</h3>
+                <p class="lead">Let us give you more details about the course you want. Please fill out the form below. <br>We have million of students  who happy to learn with us!</p>
+            </div><!-- end title -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="contact_form">
+                        <div id="message"></div>
+                        <form id="contactform" class="row" action="/SaveEnrollDetails" name="contactform" method="post">
+                            <fieldset class="row-fluid">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="Your Email">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Phone">
+                                </div>
+                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label class="sr-only">Select Course</label>
+                                    <select name="course" id="select_course" class="selectpicker form-control" data-style="btn-white">
+                                        <option value="KAS">KAS</option>
+                                        <option value="PSI">PSI</option>
+                                        <option value="PDO">PDO</option>
+                                        <option value="FDA">FDA</option>
+                                        <option value="SDA">SDA</option>
+                                        <option value="ESI">ESI</option>
+                                        <option value="RSI">RSI</option>
+                                        <option value="RRB">RRB</option>
+                                        <option value="PC">PC</option>
+                                        <option value="Teachers And Group-C">Teachers And Group-C</option>
+                                    </select>
+                                </div>
+                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label class="sr-only">Select State</label>
+                                    <select name="state" id="select_state" class="selectpicker form-control" data-style="btn-white">
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tamilnadu">Tamilnadu</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label class="sr-only">Select Country</label>
+                                    <select name="country" id="select_price" class="selectpicker form-control" data-style="btn-white">
+                                        <option value="India">India</option>
+                                        <option value="Italy">Italy</option>
+                                        <option value="Holland">Holland</option>
+                                        <option value="Germany">Germany</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <textarea class="form-control" name="comments" id="comments" rows="6" placeholder="Give us more details.."></textarea>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    <button type="submit" value="Save" id="submit" class="btn btn-light btn-radius btn-brd grd1 btn-block">Submit Details</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end section -->
+
+	<!-- <div class="map-main-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<div class="map-btn"><i class="fa fa-map-pin" aria-hidden="true"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="map-box">
+		<div id="custom-places" class="small-map"></div>
+	</div> -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <img src="static/images/logos/logo-hosting-light.png" alt="">
+                            <small>Web Hosting Template</small>
+                        </div>
+                        <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
+                        <p>Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>
+                    </div><!-- end clearfix -->
+                </div><!-- end col -->
+
+				<div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <h3>Information Link</h3>
+                        </div>
+
+                        <ul class="footer-links">
+                            <li><a href="/Home">Home</a></li>
+                            <li><a href="/static/#">Blog</a></li>
+                            <li><a href="/static/#">Pricing</a></li>
+							<li><a href="/static/#">About</a></li>
+							<li><a href="/static/#">Faq</a></li>
+							<li><a href="/static/#">Contact</a></li>
+                        </ul><!-- end links -->
+                    </div><!-- end clearfix -->
+                </div><!-- end col -->
+				
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <h3>Contact Details</h3>
+                        </div>
+
+                        <ul class="footer-links">
+                            <li><a href="/static/mailto:#">info@yoursite.com</a></li>
+                            <li><a href="/static/#">www.yoursite.com</a></li>
+                            <li>PO Box 16122 Collins Street West Victoria 8007 Australia</li>
+                            <li>+61 3 8376 6284</li>
+                        </ul><!-- end links -->
+                    </div><!-- end clearfix -->
+                </div><!-- end col -->
+				
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <h3>Social</h3>
+                        </div>
+                        <ul class="footer-links">
+                            <li><a href="/static/#"><i class="fa fa-facebook"></i> 22.543 Likes</a></li>
+                            <li><a href="/static/#"><i class="fa fa-github"></i> 128 Projects</a></li>
+                            <li><a href="/static/#"><i class="fa fa-twitter"></i> 12.860 Followers</a></li>
+                            <li><a href="/static/#"><i class="fa fa-dribbble"></i> 3312 Shots</a></li>
+                            <li><a href="/static/#"><i class="fa fa-pinterest"></i>3331 Pins</a></li>
+                        </ul><!-- end links -->
+                    </div><!-- end clearfix -->
+                </div><!-- end col -->				
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </footer><!-- end footer -->
+
+    <div class="copyrights">
+        <div class="container">
+            <div class="footer-distributed">
+                <div class="footer-left">
+                    <p class="footer-company-name">All Rights Reserved. &copy; 2018 <a href="/static/#">HostCloud</a> Design By : <a href="/static/https://html.design/">html design</a></p>
+                </div>
+
+                <div class="footer-right">
+                    <form method="get" action="#">
+                        <input placeholder="Subscribe our newsletter.." name="search">
+                        <i class="fa fa-envelope-o"></i>
+                    </form>
+                </div>
+            </div>
+        </div><!-- end container -->
+    </div><!-- end copyrights -->
+
+    <a href="/static/#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
+
+    <!-- ALL JS FILES -->
+    <script src="/static/js/all.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCKjLTXdq6Db3Xit_pW_GK4EXuPRtnod4o"></script>
+	<!-- Mapsed JavaScript -->
+	<script src="/static/js/mapsed.js"></script>
+	<script src="/static/js/01-custom-places-example.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="/static/js/custom.js"></script>
+    <script>
+        $('#notification-event li').click(function () {
+          var eid = $(this).attr("data-id");
+           var $frm = $('#event-notify-form');
+           //set the value of the hidden element
+           $frm.find('input[name="myId"]').val(eid);
+           //submit the form
+           $frm.submit();
+       });
+   </script>
+</body>
+</html>
