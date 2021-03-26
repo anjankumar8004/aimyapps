@@ -64,20 +64,20 @@ def compute_predictions(filepath):
     Train_Y=NewTrain["log_price"].copy()
 
 
-    pca_pipe=make_pipeline(Scaler_Min_Max(),treat_missing_second(),PCA(n_components = round((Train_X.shape[1]*70)/100)))
+#    pca_pipe=make_pipeline(Scaler_Min_Max(),treat_missing_second(),PCA(n_components = round((Train_X.shape[1]*70)/100)))
 
     model_pipe=make_pipeline(xgboost.XGBRegressor(objective='reg:linear',scale_pos_weight=1.0,max_delta_step=5.0,min_child_weight=10.0,max_depth=8,eta=0.1,random_state=45,n_estimators=100, eval_metric='error', learning_rate=0.1,subsample=1.0,colsample_bytree=0.5,colsample_bylevel=0.5, tree_method='gpu_hist', predictor='gpu_predictor'))
 
     #fit_transform on train,transform on test
-    pca_Train_X=pca_pipe.fit_transform(Train_X)
-    pca_Test=pca_pipe.transform(NewTest)
+#    pca_Train_X=pca_pipe.fit_transform(Train_X)
+#    pca_Test=pca_pipe.transform(NewTest)
 
 
     #fit on pca_Train_X and Train_Y
-    model_pipe.fit(pca_Train_X,Train_Y)
+    model_pipe.fit(Train_X,Train_Y)
 
     #predict
-    trainpred=model_pipe.predict(pca_Train_X)
+#    trainpred=model_pipe.predict(pca_Train_X)
 
     #Prediction on Train
     # print("RMSE "+str(mean_squared_error(Train_Y,trainpred,squared=False)))
@@ -87,14 +87,14 @@ def compute_predictions(filepath):
     print(residuals)
 
     #Final Predictions
-    finalpred=model_pipe.predict(pca_Test)
+    finalpred=model_pipe.predict(NewTest)
 
     
 
     Predictions=pd.DataFrame({"id":df_Ids,"log_price":finalpred})
     print(Predictions)
 
-    del Train_df,Test_df,df_All,NewTrain,NewTest,Train_X,Train_Y,pca_Train_X,pca_Test,trainpred
+    del Train_df,Test_df,df_All,NewTrain,NewTest,Train_X,Train_Y
 
     return Predictions
 
