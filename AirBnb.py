@@ -3,7 +3,7 @@ import numpy as np
 import io
 import os
 from io import StringIO
-from Airbnb_config import FeatureSelection, DateTimeColumns, Geo ,host_response_rate ,treat_missing_first, categorical_encoder, treat_missing_second ,Scaler_Min_Max, Mydimension_reducer,TextData
+from Airbnb_config import FeatureSelection, DateTimeColumns, Geo ,host_response_rate ,treat_missing_first, categorical_encoder, treat_missing_second ,Scaler_Min_Max, Mydimension_reducer
 import joblib
 from sklearn.model_selection import train_test_split
 import joblib
@@ -35,7 +35,7 @@ def compute_predictions(filepath):
 
     df_Ids=Test_df.id
 
-    Train_df=pd.read_csv("Model_Repos/train.csv")
+    Train_df=pd.read_csv("venv/Model_Repos/train.csv")
     print(Train_df.columns)
 
     Train_df["Flag"]="Train"
@@ -45,8 +45,8 @@ def compute_predictions(filepath):
     df_All=pd.concat([Test_df,Train_df],axis=0)
 
     prepro_pipe=make_pipeline(FeatureSelection(),treat_missing_first(df_All)
-                   ,Mydimension_reducer(),categorical_encoder(),DateTimeColumns(),
-                   TextData(),Geo(),host_response_rate())
+                   ,Mydimension_reducer(),categorical_encoder(),DateTimeColumns()
+                   ,Geo(),host_response_rate())
 
     nwdf=prepro_pipe.fit_transform(df_All)
 
@@ -77,11 +77,11 @@ def compute_predictions(filepath):
     model_pipe.fit(Train_X,Train_Y)
 
     #predict
-#    trainpred=model_pipe.predict(pca_Train_X)
+    trainpred=model_pipe.predict(Train_X)
 
     #Prediction on Train
-    # print("RMSE "+str(mean_squared_error(Train_Y,trainpred,squared=False)))
-    # print("MSE "+str(mean_squared_error(Train_Y,trainpred)))
+    print("RMSE "+str(mean_squared_error(Train_Y,trainpred,squared=False)))
+    print("MSE "+str(mean_squared_error(Train_Y,trainpred)))
 
     residuals=(Train_Y-trainpred).mean()
     print(residuals)
