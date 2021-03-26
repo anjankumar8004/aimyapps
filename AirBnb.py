@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import io
+import os
 from io import StringIO
 from Airbnb_config import FeatureSelection, DateTimeColumns, Geo ,host_response_rate ,treat_missing_first, categorical_encoder, treat_missing_second ,Scaler_Min_Max, Mydimension_reducer,TextData
 import joblib
@@ -22,7 +23,14 @@ from sklearn.model_selection import train_test_split
 
 
 def compute_predictions(filepath):
-    Test_df=pd.read_excel(filepath)
+    
+
+    # Test_df=pd.read_excel(filepath)
+    Test_df = pd.read_excel(
+        filepath,
+        engine='openpyxl',
+    )
+
     print(Test_df.columns)
 
     df_Ids=Test_df.id

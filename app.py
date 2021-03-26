@@ -52,6 +52,9 @@ def upload_file():
 
             ##########################Compute###########################
             Predictions=compute_predictions('Uploads/'+filename)
+            # Predictions=compute_predictions('Uploads/',filename)
+
+
             os.remove('Uploads/'+filename)
 
  
