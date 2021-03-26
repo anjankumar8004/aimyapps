@@ -35,7 +35,7 @@ def compute_predictions(filepath):
 
     df_Ids=Test_df.id
 
-    Train_df=pd.read_csv("venv/Model_Repos/train.csv")
+    Train_df=pd.read_csv("Model_Repos/train.csv")
     print(Train_df.columns)
 
     Train_df["Flag"]="Train"
