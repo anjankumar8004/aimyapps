@@ -14,7 +14,7 @@ from sklearn.impute import SimpleImputer
 import category_encoders as ce
 from sklearn.metrics import mean_absolute_error,mean_squared_error
 from sklearn.model_selection import train_test_split
-
+from sklearn.preprocessing import LabelEncoder
 ###################################################################################################
 ###################################################################################################
 
@@ -24,17 +24,20 @@ from sklearn.model_selection import train_test_split
 
 
 
+###################################################################################################
 
+#### Step2-Select the features and discard other.
+#Features not required ["id",thumbnail_url"," "]
 
 class FeatureSelection(BaseEstimator,TransformerMixin):
     def __init__(self):
         self.cols = ['property_type', 'room_type', 'accommodates',
        'bathrooms', 'bed_type', 'cancellation_policy', 'cleaning_fee', 'city',
-        'first_review', 'host_has_profile_pic',
-       'host_identity_verified', 'host_response_rate', 'host_since',
-       'instant_bookable', 'last_review', 'latitude', 'longitude',
-       'neighbourhood', 'number_of_reviews', 'review_scores_rating',
-        'zipcode', 'bedrooms', 'beds','Flag','log_price']
+        'host_has_profile_pic',
+       'host_identity_verified', 'host_response_rate',
+       'instant_bookable', 'latitude', 'longitude',
+       'neighbourhood', 'number_of_reviews', 'review_scores_rating'
+        , 'bedrooms', 'beds']
       
         
     def fit(self,X,y=None):
@@ -76,10 +79,46 @@ class DateTimeColumns(BaseEstimator,TransformerMixin):
             X=Z.copy()
         return X
 
+#Text=[amenities,name,description]
 ###################################################################################################
 ###################################################################################################
 
 
+class TextData(BaseEstimator,TransformerMixin):
+    
+    def __init__(self):
+        self.tfid1=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
+        self.tfid2=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
+        self.tfid3=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
+    
+    def fit(self,X,y=None):
+        self.tfid1.fit(X["amenities"].astype('U'))
+        self.tfid2.fit(X["name"].astype('U'))
+        self.tfid3.fit(X["description"].astype('U'))
+        return self
+    
+    def transform(self,X):
+            Z=X.copy()
+
+            
+            amen=self.tfid1.transform(Z["amenities"].astype('U'))
+            nam=self.tfid1.transform(Z["name"].astype('U'))
+            desc=self.tfid1.transform(Z["description"].astype('U'))
+            
+            amen=pd.DataFrame(amen.toarray())
+            nam=pd.DataFrame(nam.toarray())
+            desc=pd.DataFrame(desc.toarray())
+            
+            del Z["amenities"]
+            del Z["name"]
+            del Z["description"]
+            
+            Z=pd.concat([Z,amen,nam,desc],axis="columns")
+            X=Z.copy()
+            return X
+
+###################################################################################################
+###################################################################################################
 
 ## e)Geo=[latitude,longitude]
 
@@ -183,19 +222,19 @@ class treat_missing_first(BaseEstimator,TransformerMixin):
 # dummies Categorical columns
 class categorical_encoder(BaseEstimator,TransformerMixin):
     def __init__(self):
-        self.OHE = ce.OneHotEncoder(cols=["property_type","room_type","bed_type","cancellation_policy",
-                             "cleaning_fee","city","neighbourhood","zipcode",
+        self.cols=["property_type","room_type","bed_type","cancellation_policy",
+                             "cleaning_fee","city","neighbourhood",
                              "host_has_profile_pic",
                              "host_identity_verified","instant_bookable"]
-                       ,use_cat_names=True)
-
+        self.LE=LabelEncoder()
     def fit(self,X,y=None):
-        self.OHE.fit(X)
         return self
     
-    def transform(self,X): 
-        enc=self.OHE.transform(X)
-        return enc
+    def transform(self,X):
+        for col in self.cols:
+            nc=self.LE.fit_transform(X[col])
+            X[col]=nc
+        return X
 
 ###################################################################################################
 ###################################################################################################
@@ -230,15 +269,10 @@ class Scaler_Min_Max(BaseEstimator,TransformerMixin):
     
 ###################################################################################################
 ###################################################################################################
-
-
-
-
-# My dimension reducer of Categorical columns
 class Mydimension_reducer(BaseEstimator,TransformerMixin):
     def __init__(self):
         self.catcols = ["property_type","room_type","bed_type","cancellation_policy",
-                             "cleaning_fee","city","neighbourhood","zipcode",
+                             "cleaning_fee","city","neighbourhood",
                              "host_has_profile_pic",
                              "host_identity_verified","instant_bookable"]
 
@@ -257,42 +291,3 @@ class Mydimension_reducer(BaseEstimator,TransformerMixin):
                 Z[col]=p["log_price"].astype(str)+"cat"
         X=Z.copy()
         return X
-
-###################################################################################################
-###################################################################################################
-
-
-#Text=[amenities,name,description]
-
-class TextData(BaseEstimator,TransformerMixin):
-    
-    def __init__(self):
-        self.tfid1=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
-        self.tfid2=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
-        self.tfid3=TfidfVectorizer(lowercase= True, max_features=1000, stop_words=ENGLISH_STOP_WORDS)
-    
-    def fit(self,X,y=None):
-        self.tfid1.fit(X["amenities"].astype('U'))
-        self.tfid2.fit(X["name"].astype('U'))
-        self.tfid3.fit(X["description"].astype('U'))
-        return self
-    
-    def transform(self,X):
-            Z=X.copy()
-
-            
-            amen=self.tfid1.transform(Z["amenities"].astype('U'))
-            nam=self.tfid1.transform(Z["name"].astype('U'))
-            desc=self.tfid1.transform(Z["description"].astype('U'))
-            
-            amen=pd.DataFrame(amen.toarray())
-            nam=pd.DataFrame(nam.toarray())
-            desc=pd.DataFrame(desc.toarray())
-            
-            del Z["amenities"]
-            del Z["name"]
-            del Z["description"]
-            
-            Z=pd.concat([Z,amen,nam,desc],axis="columns")
-            X=Z.copy()
-            return X
